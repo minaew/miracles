@@ -1,31 +1,25 @@
 using System;
+using System.Collections.Generic;
+using Miracles.Core.Enums;
 
 namespace Miracles.Core
 {
     public class Resource
     {
-        public int Wood { get; set; }
-
-        public int Brick { get; set; }
-
-        public int Stone { get; set; }
-
-        public int Glass { get; set; }
-
-        public int Paper { get; set; }
-
-        public bool Covers(Resource r)
+        private readonly IDictionary<ResourceKind, int> _values =
+            new Dictionary<ResourceKind, int>
         {
-            if (r is null)
-            {
-                throw new ArgumentNullException(nameof(r));
-            }
+            { ResourceKind.Wood,  0 },
+            { ResourceKind.Brick, 0 },
+            { ResourceKind.Stone, 0 },
+            { ResourceKind.Glass, 0 },
+            { ResourceKind.Paper, 0 },
+        };
 
-            return Wood >= r.Wood &&
-                   Brick >= r.Brick &&
-                   Stone >= r.Stone &&
-                   Glass >= r.Glass &&
-                   Paper >= r.Paper;
+        public int this[ResourceKind kind]
+        {
+            get { return _values[kind]; }
+            set { _values[kind] = value; }
         }
 
         public static Resource operator +(Resource r1, Resource r2)
@@ -40,14 +34,13 @@ namespace Miracles.Core
                 throw new ArgumentNullException(nameof(r2));
             }
 
-            return new Resource
+            var resource = new Resource();
+            foreach (var kind in Enum.GetValues<ResourceKind>())
             {
-                Wood = r1.Wood + r2.Wood,
-                Brick = r1.Brick + r2.Brick,
-                Stone = r1.Stone + r2.Stone,
-                Glass = r1.Glass + r2.Glass,
-                Paper = r1.Paper + r2.Paper
-            };
+                resource[kind] = r1[kind] + r2[kind];
+            }
+
+            return resource;
         }
 
         public static Resource operator -(Resource r1, Resource r2)
@@ -62,14 +55,26 @@ namespace Miracles.Core
                 throw new ArgumentNullException(nameof(r2));
             }
 
-            return new Resource
+            var resource = new Resource();
+            foreach (var kind in Enum.GetValues<ResourceKind>())
             {
-                Wood = r1.Wood - r2.Wood,
-                Brick = r1.Brick - r2.Brick,
-                Stone = r1.Stone - r2.Stone,
-                Glass = r1.Glass - r2.Glass,
-                Paper = r1.Paper - r2.Paper
-            };
+                resource[kind] = r1[kind] - r2[kind];
+            }
+
+            return resource;
+        }
+    }
+
+    public static class ResourceHelper
+    {
+        public static Resource Sum(this IEnumerable<Resource> collection)
+        {
+            var initial = new Resource();
+            foreach (var resource in collection)
+            {
+                initial += resource;
+            }
+            return initial;
         }
     }
 }

@@ -23,66 +23,35 @@ namespace Miracles.Core
                 throw new ArgumentNullException(nameof(costable));
             }
 
-            var resource = _cards.Select(c => c.Effect.Resource)
-                                 .Aggregate(new Resource(), (r1, r2) => r1 + r2);
+            var totalResources = _cards.Select(c => c.Effect.Resource).Sum();
 
-            if (resource.Covers(costable.Cost.Resource))
-            {
-                return true;
-            }
-
-            var lack = costable.Cost.Resource - resource;
+            var lack = costable.Cost.Resource - totalResources;
 
             var discounts = _cards.Select(c => c.Effect.Discount)
-                                  .Where(d => d.HasValue)
-                                  .Select(d => d.Value)
-                                  .Distinct();
+                                  .Where(d => d != null)
+                                  .Cast<ResourceKind>()
+                                  .Distinct()
+                                  .ToList();
 
 
             var resourceCost = 0;
-            if (lack.Wood > 0)
+            foreach (var kind in Enum.GetValues<ResourceKind>())
             {
-                if (discounts.Contains(ResourceKind.Wood))
+                if (lack[kind] > 0)
                 {
-                    resourceCost += lack.Wood;
+                    if (discounts.Contains(kind))
+                    {
+                        resourceCost += lack[kind];
+                    }
+                    else
+                    {
+                        return false; // cant buy resource
+                    }
                 }
             }
-
-            if (lack.Brick > 0)
+            if (resourceCost <= Money)
             {
-                if (discounts.Contains(ResourceKind.Brick))
-                {
-                    resourceCost += lack.Brick;
-                }
-            }
-
-            if (lack.Stone > 0)
-            {
-                if (discounts.Contains(ResourceKind.Stone))
-                {
-                    resourceCost += lack.Stone;
-                }
-            }
-
-            if (lack.Glass > 0)
-            {
-                if (discounts.Contains(ResourceKind.Glass))
-                {
-                    resourceCost += lack.Glass;
-                }
-            }
-
-            if (lack.Paper > 0)
-            {
-                if (discounts.Contains(ResourceKind.Paper))
-                {
-                    resourceCost += lack.Paper;
-                }
-            }
-
-            if (resourceCost > 0 && resourceCost <= Money)
-            {
-                return true;
+                return true; // enough money for buying
             }
 
             return false;

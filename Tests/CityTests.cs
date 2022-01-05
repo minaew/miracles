@@ -21,11 +21,11 @@ namespace Miracles.Tests
             var city = new City();
 
             var resourceCard = new Card();
-            resourceCard.Effect.Resource.Wood = 2;
+            resourceCard.Effect.Resource[ResourceKind.Wood] = 2;
             city.Build(resourceCard);
 
             var targetCard = new Card();
-            targetCard.Cost.Resource.Wood = 1;
+            targetCard.Cost.Resource[ResourceKind.Wood] = 1;
         
             Assert.True(city.CanBuild(targetCard));
         }
@@ -36,7 +36,7 @@ namespace Miracles.Tests
             var city = new City();
         
             var card = new Card();
-            card.Cost.Resource.Wood = 1;
+            card.Cost.Resource[ResourceKind.Wood] = 1;
 
             Assert.False(city.CanBuild(card));
         }
@@ -47,11 +47,11 @@ namespace Miracles.Tests
             var city = new City();
 
             var resourceCard = new Card();
-            resourceCard.Effect.Resource.Wood = 1;
+            resourceCard.Effect.Resource[ResourceKind.Wood] = 1;
             city.Build(resourceCard);
 
             var targetCard = new Card();
-            targetCard.Cost.Resource.Brick = 1;
+            targetCard.Cost.Resource[ResourceKind.Brick] = 1;
 
             Assert.False(city.CanBuild(targetCard));
         }
@@ -67,7 +67,7 @@ namespace Miracles.Tests
             city.Build(card);
 
             var targetCard = new Card();
-            targetCard.Cost.Resource.Wood = 3;
+            targetCard.Cost.Resource[ResourceKind.Wood] = 3;
 
             Assert.True(city.CanBuild(targetCard));
         }
@@ -83,7 +83,7 @@ namespace Miracles.Tests
             city.Build(card);
 
             var targetCard = new Card();
-            targetCard.Cost.Resource.Brick = 3;
+            targetCard.Cost.Resource[ResourceKind.Brick] = 3;
 
             Assert.False(city.CanBuild(targetCard));
         }
