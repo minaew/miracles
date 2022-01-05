@@ -1,27 +1,29 @@
 namespace Miracles.Core
 {
-    public class City
+    public class City : ICity
     {
-        public ICollection<Card> Cards { get; } = new List<Card>();
+        private int _money;
+        private readonly List<Card> _cards = new List<Card>();
+        private readonly IDictionary<Wonder, bool> _wonders = new Dictionary<Wonder, bool>();
 
-        public ICollection<Wonder> Wonders { get; } = new List<Wonder>();
+        public IReadOnlyCollection<Wonder> AvailableWonders => _wonders
+            .Where(w => w.Value).Select(w => w.Key).ToList();
 
-        public int Money { get; set; }
-
-        // TODO: growth tokens
-
-        public bool BuildCard(Card card)
+        public bool CanBuild(Card card)
         {
-            var resources = Cards.Select(c => c.Effect.Resources).Aggregate(new Resources(), (r1, r2) => r1 + r2);
-            var canBeBuilt = resources.Covers(card.Cost.Resources);
+            var resources = _cards.Select(c => c.Effect.Resources).Aggregate(new Resources(), (r1, r2) => r1 + r2);
             // TODO: implement other ways
             // 0. resources from wonders
             // 1. buy resources
             // 2, build chain
+            return resources.Covers(card.Cost.Resources);
+        }
 
-            if (canBeBuilt)
+        public bool Build(Card card)
+        {
+            if (CanBuild(card))
             {
-                Cards.Add(card);
+                _cards.Add(card);
                 return true;
             }
             else
@@ -32,20 +34,25 @@ namespace Miracles.Core
 
         public void Trash()
         {
-            Money += 2 + Cards.Count(c => c.Color == Color.Yellow);
+            _money += 2 + _cards.Count(c => c.Color == Color.Yellow);
         }
 
-        public bool Buid(Wonder wonder)
+        public bool CanBuild(Wonder wonder)
         {
-            var resources = Cards.Select(c => c.Effect.Resources).Aggregate((r1, r2) => r1 + r2);
-            var canBeBuilt = resources.Covers(wonder.Cost.Resources);
+            if (_wonders[wonder]) return true; // already built
+
+            var resources = _cards.Select(c => c.Effect.Resources).Aggregate((r1, r2) => r1 + r2);
             // TODO: implement other ways
             // 0. resources from wonders
             // 1. buy resources
+            return resources.Covers(wonder.Cost.Resources);
+        }
 
-            if (canBeBuilt)
+        public bool Build(Wonder wonder)
+        {
+            if (CanBuild(wonder))
             {
-                Wonders.Add(wonder);
+                _wonders[wonder] = true;
                 return true;
             }
             else

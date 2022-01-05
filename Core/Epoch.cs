@@ -1,43 +1,12 @@
 namespace Miracles.Core
 {
-    public class Epoch
-    {
-        public ICollection<Card> AvailableCards { get; set; } = new List<Card>();
+    // TODO: implement epoch pattern with card blocking and discovery
+    public class Epoch : IEpoch
+    {   
+        public EpochNumber Number => throw new NotImplementedException();
 
-        public static Epoch First { get; } = new Epoch
-        {
-            AvailableCards = new List<Card>
-            {
-                new Card
-                {
-                    DisplayName = "лесоповал",
-                    Effect = new Effect
-                    {
-                        Resources = new Resources { Wood = 1 }
-                    }
-                },
-                new Card
-                {
-                    DisplayName = "карьер",
-                    Cost = new Cost { Money = 1 },
-                    Effect = new Effect
-                    {  
-                        Resources = new Resources { Brick = 1 }
-                    }
-                },
-                new Card
-                {
-                    DisplayName = "папирусная мастерская",
-                    Cost = new Cost
-                    {
-                        Money = 1
-                    },
-                    Effect = new Effect
-                    {  
-                        Resources = new Resources { Brick = 1 }
-                    }
-                }
-            }
-        };
+        public IReadOnlyCollection<Card> AvailableCards => throw new NotImplementedException();
+
+        public void Remove(Card card) => throw new NotImplementedException();
     }
 }
