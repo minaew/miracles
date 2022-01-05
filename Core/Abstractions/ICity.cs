@@ -1,4 +1,6 @@
-namespace Miracles.Core
+using System.Collections.Generic;
+
+namespace Miracles.Core.Abstractions
 {
     public interface ICity
     {

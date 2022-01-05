@@ -1,16 +1,17 @@
 using Miracles.Core;
+using Miracles.Core.Abstractions;
 
 namespace Miracles.Tests.Mocks
 {
     internal class OneLineEpochConstants
     {
-        public static IEpoch First { get; } = new OneLineEpoch(EpochNumber.First,
+        public static IEpoch First { get; } = new OneLineEpoch(
             new Card
             {
                 DisplayName = "лесоповал",
                 Effect = new Effect
                 {
-                    Resources = new Resources { Wood = 1 }
+                    Resource = new Resource { Wood = 1 }
                 }
             },
             new Card
@@ -19,7 +20,7 @@ namespace Miracles.Tests.Mocks
                 Cost = new Cost { Money = 1 },
                 Effect = new Effect
                 {  
-                    Resources = new Resources { Brick = 1 }
+                    Resource = new Resource { Brick = 1 }
                 }
             },
             new Card
@@ -31,7 +32,7 @@ namespace Miracles.Tests.Mocks
                 },
                 Effect = new Effect
                 {  
-                    Resources = new Resources { Brick = 1 }
+                    Resource = new Resource { Brick = 1 }
                 }
             });
     }

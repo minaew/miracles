@@ -1,10 +1,9 @@
 using System.Linq;
-
 using Xunit;
 using Xunit.Abstractions;
-
 using Miracles.Core;
 using Miracles.Tests.Mocks;
+using Miracles.Core.Enums;
 
 namespace Miracles.Tests
 {
@@ -18,14 +17,7 @@ namespace Miracles.Tests
         }
 
         [Fact]
-        public void EmptyEpochsIsTheEnd()
-        {
-            var game = new Game(new CustomEpochFactory());
-            Assert.Equal(0, game.AvailableCommands.Count);
-        }
-
-        [Fact]
-        public void EndToEnd()
+        public void OneCardBuilding()
         {
             var factory = new CustomEpochFactory();
             factory[EpochNumber.First] = OneLineEpochConstants.First;
@@ -42,6 +34,31 @@ namespace Miracles.Tests
             game.Invoke(command);
             commands = game.AvailableCommands;
             Assert.Equal(firstTurnCount - 2, commands.Count);
+        }
+
+        [Fact]
+        public void EmptyEpochs()
+        {
+            // Given
+            var factory = new CustomEpochFactory();
+            factory[EpochNumber.First] = new OneLineEpoch();
+            var game = new Game(factory);
+        
+            // When
+            PlayGame(game);
+
+            // Then
+            Assert.Equal(VictoryType.Score, game.Victory);
+            Assert.Null(game.Winner);
+        }
+
+        private void PlayGame(Game game) // TODO: to abscrtaction?
+        {
+            while (game.Victory == null)
+            {
+                var nextCommand = game.AvailableCommands.First();
+                game.Invoke(nextCommand);
+            }
         }
     }
 }

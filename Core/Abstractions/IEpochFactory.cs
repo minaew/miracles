@@ -1,4 +1,6 @@
-namespace Miracles.Core
+using Miracles.Core.Enums;
+
+namespace Miracles.Core.Abstractions
 {
     public interface IEpochFactory
     {

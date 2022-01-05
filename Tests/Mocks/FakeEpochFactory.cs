@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using Miracles.Core;
+using Miracles.Core.Abstractions;
+using Miracles.Core.Enums;
 
 namespace Miracles.Tests.Mocks
 {
@@ -8,9 +9,9 @@ namespace Miracles.Tests.Mocks
         private readonly IDictionary<EpochNumber, IEpoch> _epochs =
             new Dictionary<EpochNumber, IEpoch>
         {
-            { EpochNumber.First, new OneLineEpoch(EpochNumber.First) },
-            { EpochNumber.Second, new OneLineEpoch(EpochNumber.Second) },
-            { EpochNumber.Third, new OneLineEpoch(EpochNumber.Third) },
+            { EpochNumber.First, new OneLineEpoch() },
+            { EpochNumber.Second, new OneLineEpoch() },
+            { EpochNumber.Third, new OneLineEpoch() },
         };
 
         public IEpoch this[EpochNumber number]

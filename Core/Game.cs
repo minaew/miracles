@@ -1,41 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Miracles.Core.Abstractions;
+using Miracles.Core.Enums;
+
 namespace Miracles.Core
 {
     public class Game
     {
+        private EpochNumber _epochNumber;
         private IEpochFactory _epochFactory;
         private IEpoch _epoch;
-        private readonly ICollection<Card> _grave = new List<Card>();
         private IDictionary<Player, ICity> _cities = new Dictionary<Player, ICity>
         {
             { Player.First, new City() },
             { Player.Second, new City() }
         };
         private Player _turnOwner;
+        private readonly ICollection<Card> _grave = new List<Card>();
 
         public Game(IEpochFactory epochFactory)
         {
             _epochFactory = epochFactory;
             _epoch = _epochFactory[EpochNumber.First];
+
+            Update();
         }
 
         public IReadOnlyCollection<Command> AvailableCommands
         {
             get
             {
-                while (_epoch.AvailableCards.Count == 0)
-                {
-                    switch (_epoch.Number)
-                    {
-                        case EpochNumber.First:
-                            _epoch = _epochFactory[EpochNumber.Second];
-                            break;
-
-                        case EpochNumber.Second:
-                            _epoch = _epochFactory[EpochNumber.Third];
-                            break;
-                    }
-                }
-
                 var cards = _epoch.AvailableCards
                     .Where(c => _cities[_turnOwner].CanBuild(c))
                     .Select(c => Command.CardBuilding(c));
@@ -49,10 +44,19 @@ namespace Miracles.Core
 
                 return cards.Concat(wonders).Concat(trash).ToList();
             }
-        } 
+        }
+
+        public VictoryType? Victory { get; private set; }
+
+        public Player? Winner { get; }
 
         public void Invoke(Command action) // FIXME: id
         {
+            if (action is null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
             var city = _cities[_turnOwner];
 
             switch (action.Type)
@@ -78,6 +82,27 @@ namespace Miracles.Core
             }
 
             _turnOwner = _turnOwner == Player.First ? Player.Second : Player.First;
+            Update();
+        }
+
+        private void Update()
+        {
+            while ((_epoch?.AvailableCards.Count ?? 0) == 0)
+            {
+                if (_epochNumber == EpochNumber.Third)
+                {
+                    // last epoch -> game is over
+                    Victory = VictoryType.Score;
+                    return;
+                }
+
+                // go to next epoch
+                _epochNumber++;
+                _epoch = _epochFactory[_epochNumber];
+            }
+
+            // TODO: war victory
+            // TODO: science victory
         }
     }
 }

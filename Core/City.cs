@@ -1,3 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Miracles.Core.Abstractions;
+using Miracles.Core.Enums;
+
 namespace Miracles.Core
 {
     public class City : ICity
@@ -11,12 +17,17 @@ namespace Miracles.Core
 
         public bool CanBuild(Card card)
         {
-            var resources = _cards.Select(c => c.Effect.Resources).Aggregate(new Resources(), (r1, r2) => r1 + r2);
+            if (card is null)
+            {
+                throw new ArgumentNullException(nameof(card));
+            }
+
+            var resource = _cards.Select(c => c.Effect.Resource).Aggregate(new Resource(), (r1, r2) => r1 + r2);
             // TODO: implement other ways
-            // 0. resources from wonders
-            // 1. buy resources
+            // 0. Resource from wonders
+            // 1. buy Resource
             // 2, build chain
-            return resources.Covers(card.Cost.Resources);
+            return resource.Covers(card.Cost.Resource);
         }
 
         public bool Build(Card card)
@@ -34,18 +45,23 @@ namespace Miracles.Core
 
         public void Trash()
         {
-            _money += 2 + _cards.Count(c => c.Color == Color.Yellow);
+            _money += 2 + _cards.Count(c => c.Color == CardColor.Yellow);
         }
 
         public bool CanBuild(Wonder wonder)
         {
+            if (wonder is null)
+            {
+                throw new ArgumentNullException(nameof(wonder));
+            }
+
             if (_wonders[wonder]) return true; // already built
 
-            var resources = _cards.Select(c => c.Effect.Resources).Aggregate((r1, r2) => r1 + r2);
+            var Resource = _cards.Select(c => c.Effect.Resource).Aggregate((r1, r2) => r1 + r2);
             // TODO: implement other ways
-            // 0. resources from wonders
-            // 1. buy resources
-            return resources.Covers(wonder.Cost.Resources);
+            // 0. Resource from wonders
+            // 1. buy Resource
+            return Resource.Covers(wonder.Cost.Resource);
         }
 
         public bool Build(Wonder wonder)

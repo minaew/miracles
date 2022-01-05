@@ -1,3 +1,5 @@
+using Miracles.Core.Enums;
+
 namespace Miracles.Core
 {
     public class Command

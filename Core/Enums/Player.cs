@@ -1,4 +1,4 @@
-namespace Miracles.Core
+namespace Miracles.Core.Enums
 {
     public enum Player
     {

@@ -1,9 +1,9 @@
-namespace Miracles.Core
+using System.Collections.Generic;
+
+namespace Miracles.Core.Abstractions
 {
     public interface IEpoch
     {
-        EpochNumber Number { get; }
-
         IReadOnlyCollection<Card> AvailableCards { get; }
 
         void Remove(Card card);

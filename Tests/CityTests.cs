@@ -14,12 +14,12 @@ namespace Miracles.Tests
         }
 
         [Fact]
-        public void CantBuildWithoutResources()
+        public void CantBuildWithoutResource()
         {
             var city = new City();
         
             var card = new Card();
-            card.Cost.Resources.Wood = 1;
+            card.Cost.Resource = new Resource { Wood = 1 };
 
             Assert.False(city.Build(card));
         }

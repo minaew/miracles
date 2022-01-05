@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Miracles.Core;
+using Miracles.Core.Abstractions;
 
 namespace Miracles.Tests.Mocks
 {
@@ -7,13 +8,10 @@ namespace Miracles.Tests.Mocks
     {
         private readonly List<Card> _cards = new List<Card>();
 
-        public OneLineEpoch(EpochNumber number, params Card[] cards)
+        public OneLineEpoch(params Card[] cards)
         {
-            Number = number;
             _cards.AddRange(cards);
         }
-
-        public EpochNumber Number { get; }
 
         public IReadOnlyCollection<Card> AvailableCards => _cards;
 
