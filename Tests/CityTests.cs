@@ -41,7 +41,7 @@ namespace Miracles.Tests
         }
 
         [Fact]
-        public void TestName()
+        public void CantBuildWithWrongResources()
         {
             var city = new City();
 

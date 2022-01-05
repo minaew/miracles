@@ -6,11 +6,9 @@ namespace Miracles.Core.Abstractions
     {
         IReadOnlyCollection<Wonder> AvailableWonders { get; }
 
-        bool CanBuild(Card card);
+        bool CanBuild(ICostable costable);
 
         bool Build(Card card);
-
-        bool CanBuild(Wonder wonder);
 
         bool Build(Wonder wonder);
 

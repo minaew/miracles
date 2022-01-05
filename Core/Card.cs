@@ -1,8 +1,9 @@
+using Miracles.Core.Abstractions;
 using Miracles.Core.Enums;
 
 namespace Miracles.Core
 {
-    public class Card
+    public class Card : ICostable
     {
         public string DisplayName { get; set; } = string.Empty;
 
