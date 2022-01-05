@@ -49,7 +49,7 @@ namespace Miracles.Core
                     }
                 }
             }
-            if (resourceCost <= Money)
+            if (resourceCost + costable.Cost.Money <= Money)
             {
                 return true; // enough money for buying
             }

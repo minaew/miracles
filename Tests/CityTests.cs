@@ -87,5 +87,29 @@ namespace Miracles.Tests
 
             Assert.False(city.CanBuild(targetCard));
         }
+
+        [Fact]
+        public void CanBuildWithEnoughMoney()
+        {
+            var city = new City();
+            city.Money = 10;
+
+            var card = new Card();
+            card.Cost.Money = 5;
+
+            Assert.True(city.CanBuild(card));
+        }
+
+        [Fact]
+        public void CantBuildWithoutEnoughMoney()
+        {
+            var city = new City();
+            city.Money = 5;
+
+            var card = new Card();
+            card.Cost.Money = 10;
+
+            Assert.False(city.CanBuild(card));
+        }
     }
 }
