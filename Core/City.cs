@@ -39,6 +39,18 @@ namespace Miracles.Core
                 throw new ArgumentNullException(nameof(costable));
             }
 
+            if (costable.Cost.Chain.HasValue)
+            {
+                var chain = costable.Cost.Chain.Value;
+                var chains = _cards.Select(c => c.Effect.Chain)
+                                   .Where(c => c != null)
+                                   .Cast<ChainKind>();
+                if (chains.Contains(chain))
+                {
+                    return true;
+                }
+            }
+
             var cityResources = _cards.SelectMany(c => c.Effect.Resources);
             var discounts = _cards.SelectMany(c => c.Effect.Discount);
             var resourcesToBuy = costable.Cost.Resources.Except(cityResources);

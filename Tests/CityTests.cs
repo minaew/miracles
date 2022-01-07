@@ -149,5 +149,37 @@ namespace Miracles.Tests
 
             Assert.False(city.CanBuild(card));
         }
+
+        [Fact]
+        public void CanBuildWithChain()
+        {
+            var city = City.CreatePair().Item1;
+
+            var card = new Card();
+            card.Effect.Chain = ChainKind.Stables;
+            city.Build(card);
+
+            var targetCard = new Card();
+            targetCard.Cost.Chain = ChainKind.Stables;
+            targetCard.Cost.Money = 100;
+
+            Assert.True(city.CanBuild(targetCard));
+        }
+
+        [Fact]
+        public void CantBuildWithWrongChain()
+        {
+            var city = City.CreatePair().Item1;
+
+            var card = new Card();
+            card.Effect.Chain = ChainKind.Stables;
+            city.Build(card);
+
+            var targetCard = new Card();
+            targetCard.Cost.Chain = ChainKind.Barrel;
+            targetCard.Cost.Money = 100;
+
+            Assert.False(city.CanBuild(targetCard));
+        }
     }
 }

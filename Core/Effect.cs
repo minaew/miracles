@@ -8,5 +8,7 @@ namespace Miracles.Core
         public ICollection<ResourceKind> Resources { get; } = new List<ResourceKind>();
 
         public ICollection<ResourceKind> Discount { get; } = new List<ResourceKind>();
+
+        public ChainKind? Chain { get; set; }
     }
 }
