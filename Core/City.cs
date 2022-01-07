@@ -107,5 +107,14 @@ namespace Miracles.Core
                                   c.Color == CardColor.Gray)
                       .SelectMany(c => c.Effect.Resources)
                       .Count(r => r == kind);
+
+        public void Loot(int money)
+        {
+            Money -= money;
+            if (Money < 0)
+            {
+                Money = 0;
+            }
+        }
     }
 }

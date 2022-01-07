@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Miracles.Core.Abstractions;
 using Miracles.Core.Enums;
+using Miracles.Core.Helpers;
 
 namespace Miracles.Core
 {
@@ -14,8 +15,9 @@ namespace Miracles.Core
         private readonly Dictionary<Player, ICity> _cities = new();
         private Player _turnOwner;
         private readonly ICollection<Card> _grave = new List<Card>();
+        private readonly IField _field;
 
-        public Game(IEpochFactory epochFactory)
+        public Game(IEpochFactory epochFactory, IField field)
         {
             var cityPair = City.CreatePair();
             _cities[Player.First] = cityPair.Item1;
@@ -23,6 +25,8 @@ namespace Miracles.Core
 
             _epochFactory = epochFactory;
             _epoch = _epochFactory[EpochNumber.First];
+
+            _field = field;
 
             Update();
         }
@@ -48,7 +52,7 @@ namespace Miracles.Core
 
         public VictoryType? Victory { get; private set; }
 
-        public Player? Winner { get; }
+        public Player? Winner { get; private set; }
 
         public void Invoke(Command action) // FIXME: id
         {
@@ -59,16 +63,21 @@ namespace Miracles.Core
 
             var city = _cities[_turnOwner];
 
+            int loss;
             switch (action.Type)
             {
                 case CommandType.CardBuilding:
                     _epoch.Remove(action.Card);
                     city.Build(action.Card);
+                    loss = _field.Add(_turnOwner, action.Card.Effect.Power);
+                    _cities[_turnOwner.Other()].Loot(loss);
                     break;
 
                 case CommandType.WonderBuilding:
                     _epoch.Remove(action.Card);
                     city.Build(action.Wonder);
+                    loss = _field.Add(_turnOwner, action.Card.Effect.Power);
+                    _cities[_turnOwner.Other()].Loot(loss);
                     break;
 
                 case CommandType.CardTrashing:
@@ -81,12 +90,19 @@ namespace Miracles.Core
                     throw new ArgumentException("invalid commandType");
             }
 
-            _turnOwner = _turnOwner == Player.First ? Player.Second : Player.First;
+            _turnOwner = _turnOwner.Other();
             Update();
         }
 
         private void Update()
         {
+            if (_field.Winner != null)
+            {
+                Victory = VictoryType.War;
+                Winner = _field.Winner;
+                return;
+            }
+
             while ((_epoch?.AvailableCards.Count ?? 0) == 0)
             {
                 if (_epochNumber == EpochNumber.Third)

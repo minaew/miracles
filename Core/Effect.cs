@@ -10,5 +10,7 @@ namespace Miracles.Core
         public ICollection<ResourceKind> Discount { get; } = new List<ResourceKind>();
 
         public ChainKind? Chain { get; set; }
+
+        public int Power { get; set; }
     }
 }

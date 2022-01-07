@@ -14,7 +14,7 @@ namespace Miracles.Tests
             var factory = new CustomEpochFactory();
             factory[EpochNumber.First] = OneLineEpochConstants.First;
 
-            var game = new Game(factory);
+            var game = new Game(factory, new Field());
 
             var commands = game.AvailableCommands;
             var firstTurnCount = commands.Count;
@@ -34,7 +34,7 @@ namespace Miracles.Tests
             // Given
             var factory = new CustomEpochFactory();
             factory[EpochNumber.First] = new OneLineEpoch();
-            var game = new Game(factory);
+            var game = new Game(factory, new Field());
 
             // When
             PlayGame(game);
@@ -42,6 +42,29 @@ namespace Miracles.Tests
             // Then
             Assert.Equal(VictoryType.Score, game.Victory);
             Assert.Null(game.Winner);
+        }
+
+        [Fact]
+        public void MillitaryVictory()
+        {
+            var factory = new CustomEpochFactory();
+            factory[EpochNumber.First] = OneLineEpochConstants.First;
+            var game = new Game(factory, new Field());
+
+            for (var i = 0; i < 9; i++)
+            {
+                var card = new Card();
+                card.Effect.Power = 1;
+                var command = Command.CardBuilding(card);
+                game.Invoke(command);
+
+                var blank = new Card();
+                command = Command.CardBuilding(blank);
+                game.Invoke(command);
+            }
+
+            Assert.Equal(VictoryType.War, game.Victory);
+            Assert.Equal(Player.First, game.Winner);
         }
 
         private static void PlayGame(Game game) // TODO: to abscrtaction?

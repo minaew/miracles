@@ -13,5 +13,7 @@ namespace Miracles.Core.Abstractions
         bool Build(Wonder wonder);
 
         void Trash();
+
+        void Loot(int money);
     }
 }
