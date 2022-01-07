@@ -6,7 +6,7 @@ namespace Miracles.Tests.Mocks
 {
     public class OneLineEpoch : IEpoch
     {
-        private readonly List<Card> _cards = new List<Card>();
+        private readonly List<Card> _cards = new();
 
         public OneLineEpoch(params Card[] cards)
         {

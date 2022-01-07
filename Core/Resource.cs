@@ -14,6 +14,10 @@ namespace Miracles.Core
             {
                 throw new ArgumentNullException(nameof(collection1));
             }
+            if (collection2 == null)
+            {
+                throw new ArgumentNullException(nameof(collection2));
+            }
 
             var list2 = collection2.ToList();
 
@@ -27,7 +31,6 @@ namespace Miracles.Core
                 {
                     yield return item;
                 }
-
             }
         }
     }

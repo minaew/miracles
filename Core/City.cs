@@ -6,16 +6,16 @@ using Miracles.Core.Enums;
 
 namespace Miracles.Core
 {
-    public class City : ICity, IResourceCostCalculator
+    public sealed class City : ICity, IResourceCostCalculator
     {
-        private readonly List<Card> _cards = new List<Card>();
-        private readonly IDictionary<Wonder, bool> _wonders = new Dictionary<Wonder, bool>();
+        private readonly List<Card> _cards = new();
+        private readonly Dictionary<Wonder, bool> _wonders = new();
 
-        private City()
+        private City() // FIXME: ResourceCostCalculator
         {
         }
 
-        public static Tuple<City, City> CreatePair() // FIXME
+        public static Tuple<City, City> CreatePair() // FIXME: ResourceCostCalculator
         {
             var city1 = new City();
             var city2 = new City();
@@ -89,7 +89,7 @@ namespace Miracles.Core
         {
             Money += 2 + _cards.Count(c => c.Color == CardColor.Yellow);
         }
-    
+
         public int GetCost(ResourceKind kind) =>
             2 + _cards.Where(c => c.Color == CardColor.Brown ||
                                   c.Color == CardColor.Gray)

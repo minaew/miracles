@@ -4,20 +4,26 @@ using Miracles.Core.Enums;
 
 namespace Miracles.Tests.Mocks
 {
-    internal class OneLineEpochConstants
+    internal static class OneLineEpochConstants
     {
         static OneLineEpochConstants()
         {
-            var card1 = new Card();
-            card1.DisplayName = "лесоповал";
+            var card1 = new Card
+            {
+                DisplayName = "лесоповал"
+            };
             card1.Effect.Resources.Add(ResourceKind.Wood);
 
-            var card2 = new Card();
-            card2.DisplayName = "карьер";
+            var card2 = new Card
+            {
+                DisplayName = "карьер"
+            };
             card2.Effect.Resources.Add(ResourceKind.Brick);
 
-            var card3 = new Card();
-            card3.DisplayName = "папирусная мастерская";
+            var card3 = new Card
+            {
+                DisplayName = "папирусная мастерская"
+            };
             card3.Cost.Money = 1;
             card3.Effect.Resources.Add(ResourceKind.Brick);
 

@@ -28,7 +28,7 @@ namespace Miracles.Tests
 
             var targetCard = new Card();
             targetCard.Cost.Resources.Add(ResourceKind.Wood);
-        
+
             Assert.True(city.CanBuild(targetCard));
         }
 
@@ -36,7 +36,7 @@ namespace Miracles.Tests
         public void CantBuildWithoutResources()
         {
             var city = City.CreatePair().Item1;
-        
+
             var card = new Card();
             card.Cost.Resources.Add(ResourceKind.Wood);
 
@@ -63,7 +63,7 @@ namespace Miracles.Tests
         {
             var city = City.CreatePair().Item1;
             city.Money = 3;
-        
+
             var card = new Card();
             card.Effect.Discount.Add(ResourceKind.Wood);
             city.Build(card);
@@ -81,7 +81,7 @@ namespace Miracles.Tests
         {
             var city = City.CreatePair().Item1;
             city.Money = 3;
-        
+
             var card = new Card();
             card.Effect.Discount.Add(ResourceKind.Wood);
             city.Build(card);

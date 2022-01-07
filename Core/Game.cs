@@ -9,9 +9,9 @@ namespace Miracles.Core
     public class Game
     {
         private EpochNumber _epochNumber;
-        private IEpochFactory _epochFactory;
+        private readonly IEpochFactory _epochFactory;
         private IEpoch _epoch;
-        private IDictionary<Player, ICity> _cities = new Dictionary<Player, ICity>();
+        private readonly Dictionary<Player, ICity> _cities = new();
         private Player _turnOwner;
         private readonly ICollection<Card> _grave = new List<Card>();
 
@@ -20,7 +20,6 @@ namespace Miracles.Core
             var cityPair = City.CreatePair();
             _cities[Player.First] = cityPair.Item1;
             _cities[Player.Second] = cityPair.Item2;
-
 
             _epochFactory = epochFactory;
             _epoch = _epochFactory[EpochNumber.First];

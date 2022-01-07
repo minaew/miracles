@@ -1,6 +1,5 @@
 using System.Linq;
 using Xunit;
-using Xunit.Abstractions;
 using Miracles.Core;
 using Miracles.Tests.Mocks;
 using Miracles.Core.Enums;
@@ -9,13 +8,6 @@ namespace Miracles.Tests
 {
     public class GameTests
     {
-        private readonly ITestOutputHelper _output;
-
-        public GameTests(ITestOutputHelper outputHelper)
-        {
-            _output = outputHelper;
-        }
-
         [Fact]
         public void OneCardBuilding()
         {
@@ -43,7 +35,7 @@ namespace Miracles.Tests
             var factory = new CustomEpochFactory();
             factory[EpochNumber.First] = new OneLineEpoch();
             var game = new Game(factory);
-        
+
             // When
             PlayGame(game);
 
@@ -52,7 +44,7 @@ namespace Miracles.Tests
             Assert.Null(game.Winner);
         }
 
-        private void PlayGame(Game game) // TODO: to abscrtaction?
+        private static void PlayGame(Game game) // TODO: to abscrtaction?
         {
             while (game.Victory == null)
             {
