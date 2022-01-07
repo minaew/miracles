@@ -11,16 +11,17 @@ namespace Miracles.Core
         private EpochNumber _epochNumber;
         private IEpochFactory _epochFactory;
         private IEpoch _epoch;
-        private IDictionary<Player, ICity> _cities = new Dictionary<Player, ICity>
-        {
-            { Player.First, new City() },
-            { Player.Second, new City() }
-        };
+        private IDictionary<Player, ICity> _cities = new Dictionary<Player, ICity>();
         private Player _turnOwner;
         private readonly ICollection<Card> _grave = new List<Card>();
 
         public Game(IEpochFactory epochFactory)
         {
+            var cityPair = City.CreatePair();
+            _cities[Player.First] = cityPair.Item1;
+            _cities[Player.Second] = cityPair.Item2;
+
+
             _epochFactory = epochFactory;
             _epoch = _epochFactory[EpochNumber.First];
 

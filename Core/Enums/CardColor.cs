@@ -2,6 +2,8 @@ namespace Miracles.Core.Enums
 {
     public enum CardColor
     {
-        Yellow
+        Yellow,
+        Brown,
+        Gray
     }
 }

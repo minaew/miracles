@@ -6,15 +6,31 @@ using Miracles.Core.Enums;
 
 namespace Miracles.Core
 {
-    public class City : ICity
+    public class City : ICity, IResourceCostCalculator
     {
         private readonly List<Card> _cards = new List<Card>();
         private readonly IDictionary<Wonder, bool> _wonders = new Dictionary<Wonder, bool>();
+
+        private City()
+        {
+        }
+
+        public static Tuple<City, City> CreatePair() // FIXME
+        {
+            var city1 = new City();
+            var city2 = new City();
+            city1.ResourceCostCalculator = city2;
+            city2.ResourceCostCalculator = city1;
+
+            return Tuple.Create(city1, city2);
+        }
 
         public IReadOnlyCollection<Wonder> AvailableWonders => _wonders
             .Where(w => w.Value).Select(w => w.Key).ToList();
 
         public int Money { get; set; }
+
+        public IResourceCostCalculator ResourceCostCalculator { get; set; }
 
         public bool CanBuild(ICostable costable)
         {
@@ -23,38 +39,24 @@ namespace Miracles.Core
                 throw new ArgumentNullException(nameof(costable));
             }
 
-            var totalResources = _cards.Select(c => c.Effect.Resource).Sum();
+            var cityResources = _cards.SelectMany(c => c.Effect.Resources);
+            var discounts = _cards.SelectMany(c => c.Effect.Discount);
+            var resourcesToBuy = costable.Cost.Resources.Except(cityResources);
 
-            var lack = costable.Cost.Resource - totalResources;
-
-            var discounts = _cards.Select(c => c.Effect.Discount)
-                                  .Where(d => d != null)
-                                  .Cast<ResourceKind>()
-                                  .Distinct()
-                                  .ToList();
-
-
-            var resourceCost = 0;
-            foreach (var kind in Enum.GetValues<ResourceKind>())
+            var cost = costable.Cost.Money;
+            foreach (var resource in resourcesToBuy)
             {
-                if (lack[kind] > 0)
+                if (discounts.Contains(resource))
                 {
-                    if (discounts.Contains(kind))
-                    {
-                        resourceCost += lack[kind];
-                    }
-                    else
-                    {
-                        return false; // cant buy resource
-                    }
+                    cost++;
+                }
+                else
+                {
+                    cost += ResourceCostCalculator.GetCost(resource);
                 }
             }
-            if (resourceCost + costable.Cost.Money <= Money)
-            {
-                return true; // enough money for buying
-            }
 
-            return false;
+            return Money >= cost;
         }
 
         public bool Build(Card card)
@@ -87,5 +89,11 @@ namespace Miracles.Core
         {
             Money += 2 + _cards.Count(c => c.Color == CardColor.Yellow);
         }
+    
+        public int GetCost(ResourceKind kind) =>
+            2 + _cards.Where(c => c.Color == CardColor.Brown ||
+                                  c.Color == CardColor.Gray)
+                      .SelectMany(c => c.Effect.Resources)
+                      .Count(r => r == kind);
     }
 }

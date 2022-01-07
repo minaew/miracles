@@ -1,11 +1,12 @@
+using System.Collections.Generic;
 using Miracles.Core.Enums;
 
 namespace Miracles.Core
 {
     public class Effect
     {
-        public Resource Resource { get; set; } = new Resource();
+        public ICollection<ResourceKind> Resources { get; } = new List<ResourceKind>();
 
-        public ResourceKind? Discount { get; set; }
+        public ICollection<ResourceKind> Discount { get; } = new List<ResourceKind>();
     }
 }
