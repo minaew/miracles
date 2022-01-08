@@ -24,6 +24,10 @@ namespace Miracles.Core
 
         public int Money { get; set; }
 
+        public int Scores { get; set; }
+
+        public ScienceSymbolKind ScienceSymbol { get; set; }
+
         public static Effect FromDiscount(ResourceKind kind)
         {
             var effect = new Effect();

@@ -56,19 +56,19 @@ namespace Miracles.Core
 
             new Card("мастерская",
                      CardColor.Green,
-                     new Effect(), // TODO
+                     new Effect { Scores = 1, ScienceSymbol = ScienceSymbolKind.Triangle },
                      new Cost(ResourceKind.Paper)),
             new Card("аптека",
                      CardColor.Green,
-                     new Effect(), // TODO
+                     new Effect { Scores = 1, ScienceSymbol = ScienceSymbolKind.Wheel },
                      new Cost(ResourceKind.Glass)),
             new Card("скрипторий",
                      CardColor.Green,
-                     new Effect(ChainKind.Book), // TODO
+                     new Effect(ChainKind.Book) { ScienceSymbol = ScienceSymbolKind.Ink },
                      new Cost(2)),
             new Card("лавка травника",
                      CardColor.Green,
-                     new Effect(ChainKind.Gear), // TODO
+                     new Effect(ChainKind.Gear) {ScienceSymbol = ScienceSymbolKind.Mortar },
                      new Cost(2)),
 
             new Card("склад камней",
@@ -89,13 +89,13 @@ namespace Miracles.Core
 
             new Card("театр",
                      CardColor.Blue,
-                     new Effect(ChainKind.Mask)), // TODO
+                     new Effect(ChainKind.Mask) { Scores = 3 }),
             new Card("алтарь",
                      CardColor.Blue,
-                     new Effect(ChainKind.Moon)), // TODO
+                     new Effect(ChainKind.Moon) { Scores = 3 }),
             new Card("бани",
                      CardColor.Blue,
-                     new Effect(ChainKind.Drop),  // TODO
+                     new Effect(ChainKind.Drop) { Scores = 3 },
                      new Cost(ResourceKind.Stone))
         };
     }
