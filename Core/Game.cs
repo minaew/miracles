@@ -96,6 +96,7 @@ namespace Miracles.Core
 
         private void Update()
         {
+            // war victory
             if (_field.Winner != null)
             {
                 Victory = VictoryType.War;
@@ -103,12 +104,63 @@ namespace Miracles.Core
                 return;
             }
 
+            // TODO: science victory
+
             while ((_epoch?.AvailableCards.Count ?? 0) == 0)
             {
                 if (_epochNumber == EpochNumber.Third)
                 {
                     // last epoch -> game is over
                     Victory = VictoryType.Score;
+
+                    // score victory
+                    var first = 0;
+                    var second = 0;
+
+                    // military power
+                    switch (_field.Scores.Item1)
+                    {
+                        case Player.First:
+                            first += _field.Scores.Item2;
+                            break;
+                        case Player.Second:
+                            second += _field.Scores.Item2;
+                            break;
+                    }
+
+                    // from cards and wonders
+                    first += _cities[Player.First].Scores;
+                    second += _cities[Player.Second].Scores;
+ 
+                    // TODO: violet cards
+
+                    if (first > second)
+                    {
+                        Winner = Player.First;
+                    }
+                    if (second > first)
+                    {
+                        Winner = Player.Second;
+                    }
+                    if (second == first)
+                    {
+                        first = _cities[Player.First].CivilScores;
+                        second = _cities[Player.Second].CivilScores;
+
+                        if (first > second)
+                        {
+                            Winner = Player.First;
+                        }
+                        if (second > first)
+                        {
+                            Winner = Player.Second;
+                        }
+                        if (second == first)
+                        {
+                            Winner = null;
+                        }
+                    }
+
                     return;
                 }
 
@@ -116,9 +168,6 @@ namespace Miracles.Core
                 _epochNumber++;
                 _epoch = _epochFactory[_epochNumber];
             }
-
-            // TODO: war victory
-            // TODO: science victory
         }
     }
 }

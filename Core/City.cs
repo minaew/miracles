@@ -33,6 +33,16 @@ namespace Miracles.Core
 
         public IResourceCostCalculator ResourceCostCalculator { get; set; }
 
+        public int Scores =>
+            _cards.Select(c => c.Effect.Scores).Sum() +           // cards
+            AvailableWonders.Select(w => w.Effect.Scores).Sum() + // wonders
+            // TODO                                               // development tokens
+            (Money / 3);                                          // money
+
+        public int CivilScores => _cards.Where(c => c.Color == CardColor.Blue)
+                                        .Select(c => c.Effect.Scores)
+                                        .Sum();
+
         public bool CanBuild(ICostable costable)
         {
             if (costable is null)
