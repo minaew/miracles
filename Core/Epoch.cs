@@ -6,9 +6,9 @@ namespace Miracles.Core
     // TODO: implement epoch pattern with card blocking and discovery
     public class Epoch : IEpoch
     {
-        public IReadOnlyCollection<Card> AvailableCards { get; } = new List<Card>();
+        public IReadOnlyCollection<ICard> AvailableCards { get; } = new List<ICard>();
 
-        public void Remove(Card card)
+        public void Remove(ICard card)
         {
         }
     }

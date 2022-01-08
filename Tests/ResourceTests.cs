@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Xunit;
 using Miracles.Core.Enums;
-using Miracles.Core;
+using Miracles.Core.Helpers;
 
 namespace Miracles.Tests
 {

@@ -3,14 +3,27 @@ using Miracles.Core.Enums;
 
 namespace Miracles.Core
 {
-    public class Card : ICostable
+    internal class Card : ICard
     {
-        public string DisplayName { get; set; } = string.Empty;
+        public Card(string displayName, CardColor color, Effect effect)
+            : this(displayName, color, effect, new Cost(0))
+        {
+        }
 
-        public CardColor Color { get; set; }
+        public Card(string displayName, CardColor color, Effect effect, Cost cost)
+        {
+            DisplayName = displayName;
+            Color = color;
+            Effect = effect;
+            Cost = cost;
+        }
 
-        public Cost Cost { get; set; } = new Cost();
+        public string DisplayName { get; }
 
-        public Effect Effect { get; set; } = new Effect();
+        public CardColor Color { get; }
+
+        public Cost Cost { get; }
+
+        public Effect Effect { get; }
     }
 }

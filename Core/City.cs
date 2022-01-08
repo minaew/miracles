@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Miracles.Core.Abstractions;
 using Miracles.Core.Enums;
+using Miracles.Core.Helpers;
 
 namespace Miracles.Core
 {
     public sealed class City : ICity, IResourceCostCalculator
     {
-        private readonly List<Card> _cards = new();
+        private readonly List<ICard> _cards = new();
         private readonly Dictionary<Wonder, bool> _wonders = new();
 
         private City() // FIXME: ResourceCostCalculator
@@ -71,7 +72,7 @@ namespace Miracles.Core
             return Money >= cost;
         }
 
-        public bool Build(Card card)
+        public bool Build(ICard card)
         {
             if (CanBuild(card))
             {

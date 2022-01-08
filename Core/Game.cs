@@ -14,7 +14,7 @@ namespace Miracles.Core
         private IEpoch _epoch;
         private readonly Dictionary<Player, ICity> _cities = new();
         private Player _turnOwner;
-        private readonly ICollection<Card> _grave = new List<Card>();
+        private readonly ICollection<ICard> _grave = new List<ICard>();
         private readonly IField _field;
 
         public Game(IEpochFactory epochFactory, IField field)

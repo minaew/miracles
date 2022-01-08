@@ -8,7 +8,7 @@ namespace Miracles.Core.Abstractions
 
         bool CanBuild(ICostable costable);
 
-        bool Build(Card card);
+        bool Build(ICard card);
 
         bool Build(Wonder wonder);
 

@@ -4,8 +4,8 @@ namespace Miracles.Core.Abstractions
 {
     public interface IEpoch
     {
-        IReadOnlyCollection<Card> AvailableCards { get; }
+        IReadOnlyCollection<ICard> AvailableCards { get; }
 
-        void Remove(Card card);
+        void Remove(ICard card);
     }
 }

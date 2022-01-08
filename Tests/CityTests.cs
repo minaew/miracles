@@ -11,7 +11,7 @@ namespace Miracles.Tests
         public void CanBuildFreeCard()
         {
             var city = City.CreatePair().Item1;
-            var freeCard = new Card();
+            var freeCard = new CustomCard();
 
             Assert.True(city.CanBuild(freeCard));
         }
@@ -21,12 +21,12 @@ namespace Miracles.Tests
         {
             var city = City.CreatePair().Item1;
 
-            var resourceCard = new Card();
+            var resourceCard = new CustomCard();
             resourceCard.Effect.Resources.Add(ResourceKind.Wood);
             resourceCard.Effect.Resources.Add(ResourceKind.Wood);
             city.Build(resourceCard);
 
-            var targetCard = new Card();
+            var targetCard = new CustomCard();
             targetCard.Cost.Resources.Add(ResourceKind.Wood);
 
             Assert.True(city.CanBuild(targetCard));
@@ -37,7 +37,7 @@ namespace Miracles.Tests
         {
             var city = City.CreatePair().Item1;
 
-            var card = new Card();
+            var card = new CustomCard();
             card.Cost.Resources.Add(ResourceKind.Wood);
 
             Assert.False(city.CanBuild(card));
@@ -48,11 +48,11 @@ namespace Miracles.Tests
         {
             var city = City.CreatePair().Item1;
 
-            var resourceCard = new Card();
+            var resourceCard = new CustomCard();
             resourceCard.Effect.Resources.Add(ResourceKind.Wood);
             city.Build(resourceCard);
 
-            var targetCard = new Card();
+            var targetCard = new CustomCard();
             targetCard.Cost.Resources.Add(ResourceKind.Brick);
 
             Assert.False(city.CanBuild(targetCard));
@@ -64,11 +64,11 @@ namespace Miracles.Tests
             var city = City.CreatePair().Item1;
             city.Money = 3;
 
-            var card = new Card();
+            var card = new CustomCard();
             card.Effect.Discount.Add(ResourceKind.Wood);
             city.Build(card);
 
-            var targetCard = new Card();
+            var targetCard = new CustomCard();
             targetCard.Cost.Resources.Add(ResourceKind.Wood);
             targetCard.Cost.Resources.Add(ResourceKind.Wood);
             targetCard.Cost.Resources.Add(ResourceKind.Wood);
@@ -82,11 +82,11 @@ namespace Miracles.Tests
             var city = City.CreatePair().Item1;
             city.Money = 3;
 
-            var card = new Card();
+            var card = new CustomCard();
             card.Effect.Discount.Add(ResourceKind.Wood);
             city.Build(card);
 
-            var targetCard = new Card();
+            var targetCard = new CustomCard();
             targetCard.Cost.Resources.Add(ResourceKind.Brick);
             targetCard.Cost.Resources.Add(ResourceKind.Brick);
             targetCard.Cost.Resources.Add(ResourceKind.Brick);
@@ -100,7 +100,7 @@ namespace Miracles.Tests
             var city = City.CreatePair().Item1;
             city.Money = 10;
 
-            var card = new Card();
+            var card = new CustomCard();
             card.Cost.Money = 5;
 
             Assert.True(city.CanBuild(card));
@@ -112,7 +112,7 @@ namespace Miracles.Tests
             var city = City.CreatePair().Item1;
             city.Money = 5;
 
-            var card = new Card();
+            var card = new CustomCard();
             card.Cost.Money = 10;
 
             Assert.False(city.CanBuild(card));
@@ -128,7 +128,7 @@ namespace Miracles.Tests
                 { ResourceKind.Wood, 5 }
             };
 
-            var card = new Card();
+            var card = new CustomCard();
             card.Cost.Resources.Add(ResourceKind.Wood);
 
             Assert.True(city.CanBuild(card));
@@ -144,7 +144,7 @@ namespace Miracles.Tests
                 { ResourceKind.Wood, 5 }
             };
 
-            var card = new Card();
+            var card = new CustomCard();
             card.Cost.Resources.Add(ResourceKind.Wood);
 
             Assert.False(city.CanBuild(card));
@@ -155,11 +155,11 @@ namespace Miracles.Tests
         {
             var city = City.CreatePair().Item1;
 
-            var card = new Card();
+            var card = new CustomCard();
             card.Effect.Chain = ChainKind.Stables;
             city.Build(card);
 
-            var targetCard = new Card();
+            var targetCard = new CustomCard();
             targetCard.Cost.Chain = ChainKind.Stables;
             targetCard.Cost.Money = 100;
 
@@ -171,11 +171,11 @@ namespace Miracles.Tests
         {
             var city = City.CreatePair().Item1;
 
-            var card = new Card();
+            var card = new CustomCard();
             card.Effect.Chain = ChainKind.Stables;
             city.Build(card);
 
-            var targetCard = new Card();
+            var targetCard = new CustomCard();
             targetCard.Cost.Chain = ChainKind.Barrel;
             targetCard.Cost.Money = 100;
 

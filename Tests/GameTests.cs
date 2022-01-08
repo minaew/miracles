@@ -53,12 +53,12 @@ namespace Miracles.Tests
 
             for (var i = 0; i < 9; i++)
             {
-                var card = new Card();
+                var card = new CustomCard();
                 card.Effect.Power = 1;
                 var command = Command.CardBuilding(card);
                 game.Invoke(command);
 
-                var blank = new Card();
+                var blank = new CustomCard();
                 command = Command.CardBuilding(blank);
                 game.Invoke(command);
             }

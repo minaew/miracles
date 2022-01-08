@@ -1,4 +1,3 @@
-using Miracles.Core;
 using Miracles.Core.Abstractions;
 using Miracles.Core.Enums;
 
@@ -8,19 +7,19 @@ namespace Miracles.Tests.Mocks
     {
         static OneLineEpochConstants()
         {
-            var card1 = new Card
+            var card1 = new CustomCard
             {
                 DisplayName = "лесоповал"
             };
             card1.Effect.Resources.Add(ResourceKind.Wood);
 
-            var card2 = new Card
+            var card2 = new CustomCard
             {
                 DisplayName = "карьер"
             };
             card2.Effect.Resources.Add(ResourceKind.Brick);
 
-            var card3 = new Card
+            var card3 = new CustomCard
             {
                 DisplayName = "папирусная мастерская"
             };

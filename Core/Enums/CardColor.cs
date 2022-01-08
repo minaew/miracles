@@ -4,6 +4,9 @@ namespace Miracles.Core.Enums
     {
         Yellow,
         Brown,
-        Gray
+        Gray,
+        Green,
+        Red,
+        Blue
     }
 }
