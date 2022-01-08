@@ -77,6 +77,7 @@ namespace Miracles.Core
             if (CanBuild(card))
             {
                 _cards.Add(card);
+                Money += card.Effect.Money;
                 return true;
             }
             else

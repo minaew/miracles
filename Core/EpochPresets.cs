@@ -85,7 +85,7 @@ namespace Miracles.Core
                      new Cost(3)),
             new Card("таверна",
                      CardColor.Yellow,
-                     new Effect(ChainKind.Jug)), // TODO
+                     new Effect(ChainKind.Jug) { Money = 4 }),
 
             new Card("театр",
                      CardColor.Blue,

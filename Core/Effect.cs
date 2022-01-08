@@ -22,6 +22,8 @@ namespace Miracles.Core
 
         public int Power { get; set; }
 
+        public int Money { get; set; }
+
         public static Effect FromDiscount(ResourceKind kind)
         {
             var effect = new Effect();
